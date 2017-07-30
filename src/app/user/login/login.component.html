@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="login-form col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username"
+          #usernameElement [(ngModel)]="username" required placeholder="Enter your username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="passsword"
+          name="password" required [(ngModel)]="password" placeholder="Password">
+        <small><a>Forgot your password?</a></small>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Login</button>
+      <p class="text-danger" [hidden]="!loginFailed">Invalid username/password. </p>
+    </form>
+    <p class="registration-url">Need an account? <a>Register for one.</a></p>
+</div>

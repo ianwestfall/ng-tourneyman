@@ -11,15 +11,8 @@ export class HemaEventDataService {
 
   constructor(@Inject('SETTINGS') private settings: any, private http: Http) { }
 
-  private getAuthHeaderValue(): string {
-    return 'Basic ' + btoa(this.settings.apiUser + ':' + this.settings.apiPassword);
-  }
-
   getAllHemaEvents(): Promise<HemaEvent[]>{
-    let headers = new Headers();
-    headers.append('Authorization', this.getAuthHeaderValue());
-
-    return this.http.get(this.eventsUrl, {headers: headers})
+    return this.http.get(this.eventsUrl)
       .toPromise()
       .then(response => {
         let events = new Array<HemaEvent>();
