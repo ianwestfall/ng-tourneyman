@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { UserDataService } from './user/user-data.service';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,13 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'TourneyMan';
 
-  constructor(private userService: UserDataService, private router: Router){}
-
-  loggedIn(): boolean {
-    return this.userService.loggedIn();
+  constructor(
+    private userService: UserDataService,
+    private router: Router,
+    private toastr: ToastsManager,
+    vRef: ViewContainerRef
+  ){
+    this.toastr.setRootViewContainerRef(vRef);
   }
 
   loggedInUser(): string {

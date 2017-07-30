@@ -21,13 +21,14 @@ export class LoginComponent implements OnInit {
     private router: Router){}
 
   ngOnInit() {
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.userDataService.logout();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit(form: NgForm) {
       let success = this.userDataService.login(this.username, this.password);
       success.then(logged_in => {
-        this.router.navigateByUrl(this.returnUrl); 
+        this.router.navigateByUrl(this.returnUrl);
       }, error => {
         this.username = null;
         this.password = null;

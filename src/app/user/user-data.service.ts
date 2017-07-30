@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { tokenNotExpired } from 'angular2-jwt';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -15,18 +16,25 @@ export class UserDataService {
     @Inject('SETTINGS') private settings: any,
     private http: Http
   ) {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser && currentUser.token;
+    this.token = localStorage.getItem('token');
   }
 
   loggedIn(): boolean {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    return !!currentUser;
+    return tokenNotExpired();
   }
 
   getCurrentUser(): string {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    return currentUser && currentUser.username;
+    return localStorage.getItem('currentUser');
+  }
+
+  storeLoggedInUser(username: string, token: string): void {
+    localStorage.setItem('currentUser', username);
+    localStorage.setItem('token', token);
+  }
+
+  clearLoggedInUser(): void {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
   }
 
   login(username: string, password: string): Promise<boolean> {
@@ -34,10 +42,10 @@ export class UserDataService {
     return this.http.post(url, {"username": username, "password": password})
       .toPromise()
       .then(response => {
-        let token = response.json() && response.json().auth_token;
+        let token = response.json() && response.json().token;
         if (token) {
           this.token = token;
-          localStorage.setItem('currentUser', JSON.stringify({'username': username, 'token': token}));
+          this.storeLoggedInUser(username, token);
           return true;
         } else {
           return false;
@@ -50,6 +58,6 @@ export class UserDataService {
 
   logout(): void {
     this.token = null;
-    localStorage.removeItem('currentUser');
+    this.clearLoggedInUser();
   }
 }

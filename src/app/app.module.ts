@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +19,12 @@ import { LoginComponent } from './user/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 
 import { UserDataService } from './user/user-data.service';
+import { TopLevelErrorHandler } from './error_handler';
+
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { CustomOption } from './toast_options';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { AuthModule } from './auth.module';
 
 @NgModule({
   declarations: [
@@ -34,9 +40,14 @@ import { UserDataService } from './user/user-data.service';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
+    AuthModule, 
   ],
   providers: [
     { provide: 'SETTINGS', useValue: environment },
+    { provide: ErrorHandler, useClass: TopLevelErrorHandler },
+    { provide: ToastOptions, useClass: CustomOption },
     AuthGuard,
     UserDataService,
   ],
