@@ -13,7 +13,7 @@
         <small><a>Forgot your password?</a></small>
       </div>
       <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Login</button>
-      <p class="text-danger" [hidden]="!loginFailed">Invalid username/password. </p>
+      <p class="text-danger" *ngIf="loginFailed">Invalid username/password. </p>
     </form>
-    <p class="registration-url">Need an account? <a>Register for one.</a></p>
+    <p class="registration-url">Need an account? <a routerLink='/register'>Register for one.</a></p>
 </div>

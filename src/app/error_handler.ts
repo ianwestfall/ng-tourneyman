@@ -9,7 +9,6 @@ export class TopLevelErrorHandler implements ErrorHandler {
     let toastr = <ToastsManager>this.injector.get(ToastsManager);
 
     setTimeout(() => {
-      console.error('Error: ');
       console.error(error);
       toastr.error(error.message || error, null);
     });

@@ -24,7 +24,11 @@ import { TopLevelErrorHandler } from './error_handler';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CustomOption } from './toast_options';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { AuthModule } from './auth.module';
+import { AuthModule } from './auth/auth.module';
+import { HomeComponent } from './home/home/home.component';
+import { RegisterComponent } from './user/register/register.component';
+import { LogoutComponent } from './user/logout/logout.component';
+import { EqualValidatorDirective } from './user/validators/equal-validator.directive';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,10 @@ import { AuthModule } from './auth.module';
     EventDateRangePipe,
     EventCreatorPipe,
     LoginComponent,
+    HomeComponent,
+    RegisterComponent,
+    LogoutComponent,
+    EqualValidatorDirective,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +50,7 @@ import { AuthModule } from './auth.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
-    AuthModule, 
+    AuthModule,
   ],
   providers: [
     { provide: 'SETTINGS', useValue: environment },

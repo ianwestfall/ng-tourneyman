@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="login-form col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username"
+          [(ngModel)]="username" required placeholder="Enter your desired username">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email"
+          [(ngModel)]="email" required email placeholder="Enter your email" #emailInput="ngModel">
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="alert alert-danger">
+          <div *ngIf="emailInput.errors.email">A valid email address is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" name="firstName"
+          [(ngModel)]="firstName" required placeholder="Enter your first name">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" name="lastName"
+          [(ngModel)]="lastName" required placeholder="Enter your last name">
+      </div>
+
+      <div class="form-group">
+        <label for="association">Club/Association</label>
+        <input type="text" class="form-control" id="association" name="association"
+          [(ngModel)]="association" required placeholder="Enter your club/association">
+      </div>
+
+
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input type="password" class="form-control" id="passsword1"
+          name="password1" required validateEqual="password2" reverse="true" [(ngModel)]="password1" #password1Input="ngModel" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label for="password2">Re-enter password</label>
+        <input type="password" class="form-control" id="passsword2"
+          name="password2" required validateEqual="password1" [(ngModel)]="password2" #password2Input="ngModel" placeholder="Re-enter your password">
+        <div *ngIf="password2Input.invalid && (password2Input.dirty || password2Input.touched)" class="alert alert-danger">
+          Passwords must match
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!registerForm.form.valid">Register</button>
+      <p class="text-danger" *ngIf="loginFailed">{{ errorMessage }}</p>
+    </form>
+</div>
