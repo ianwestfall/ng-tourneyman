@@ -29,6 +29,7 @@ import { HomeComponent } from './home/home/home.component';
 import { RegisterComponent } from './user/register/register.component';
 import { LogoutComponent } from './user/logout/logout.component';
 import { EqualValidatorDirective } from './user/validators/equal-validator.directive';
+import { UsernameAvailabilityDirective } from './user/validators/username-availability.directive';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { EqualValidatorDirective } from './user/validators/equal-validator.direc
     RegisterComponent,
     LogoutComponent,
     EqualValidatorDirective,
+    UsernameAvailabilityDirective, 
   ],
   imports: [
     BrowserModule,

@@ -27,17 +27,26 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(form: NgForm){
-    if(this.password1 === this.password2){
+    this.userDataService.register(
+      this.username,
+      this.password1,
+      this.email,
+      this.firstName,
+      this.lastName,
+      this.association,
+    ).subscribe(res => {
+      this.router.navigateByUrl('/login');
+    },
+    err => {
+      console.error(err);
+    });
+
+      /*
       let success = this.userDataService.register(
-        this.username, this.password1, this.email, this.firstName, this.lastName, this.association, 
+        this.username, this.password1, this.email, this.firstName, this.lastName, this.association,
       );
       success.then(_ => {
         this.router.navigateByUrl('/login');
-      })
-    }
-    else{
-
-    }
+      })*/
   }
-
 }

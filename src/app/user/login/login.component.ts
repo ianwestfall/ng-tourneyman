@@ -26,13 +26,17 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form: NgForm) {
       let success = this.userDataService.login(this.username, this.password);
-      success.then(logged_in => {
-        this.router.navigateByUrl(this.returnUrl);
-      }, error => {
-        this.username = null;
-        this.password = null;
-        form.reset();
-        this.loginFailed = true;
-      });
+      success.subscribe(
+        logged_in => {
+          this.router.navigateByUrl(this.returnUrl);
+        },
+        err => {
+          this.username = null;
+          this.password = null;
+          form.reset();
+          this.loginFailed = true;
+          console.error(err);
+        }
+      );
   }
 }

@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Http, HttpModule, XHRBackend, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
+import { UserDataService } from '../../user/user-data.service';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
@@ -8,7 +11,13 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      imports: [HttpModule,],
+      declarations: [ HomeComponent ],
+      providers: [
+        UserDataService,
+        {provide: 'SETTINGS', useValue: { apiUrl: 'http://www.example.com/'}},
+        {provide: XHRBackend, useClass: MockBackend},
+      ]
     })
     .compileComponents();
   }));
