@@ -12,8 +12,8 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class UserDataService {
   private urls = {
-    'login': '/auth/login/',
-    'register': '/auth/register/',
+    'login': '/auth/jwt/create/',
+    'register': '/auth/users/create/',
     'username_availability': '/registration_validation/',
   };
   private loginAnnouncedSource = new Subject<string>();
