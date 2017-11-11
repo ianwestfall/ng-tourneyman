@@ -78,7 +78,7 @@ describe('UserDataService', () => {
       };
 
       mockBackend.connections.subscribe((connection) => {
-        expect(connection.request.url).toContain('/login');
+        expect(connection.request.url).toContain('/auth/jwt/create/');
         expect(connection.request.method).toBe(RequestMethod.Post);
         expect(connection.request._body.username).toBe(testUsername);
         expect(connection.request._body.password).toBe(testPassword);
@@ -103,7 +103,7 @@ describe('UserDataService', () => {
       const mockResponse = {};
 
       mockBackend.connections.subscribe((connection) => {
-        expect(connection.request.url).toContain('/login');
+        expect(connection.request.url).toContain('/auth/jwt/create/');
         expect(connection.request.method).toBe(RequestMethod.Post);
         expect(connection.request._body.username).toBe(testUsername);
         expect(connection.request._body.password).toBe(testPassword);
@@ -130,7 +130,7 @@ describe('UserDataService', () => {
       };
 
       mockBackend.connections.subscribe((connection) => {
-        expect(connection.request.url).toContain('/login');
+        expect(connection.request.url).toContain('/auth/jwt/create/');
         expect(connection.request.method).toBe(RequestMethod.Post);
         expect(connection.request._body.username).toBe(testUsername);
         expect(connection.request._body.password).toBe(testPassword);
@@ -183,7 +183,7 @@ describe('UserDataService', () => {
       const mockResponse = {};
 
       mockBackend.connections.subscribe((connection) => {
-        expect(connection.request.url).toContain('/register');
+        expect(connection.request.url).toContain('/auth/users/create/');
         expect(connection.request.method).toBe(RequestMethod.Post);
         expect(connection.request._body.username).toBe(testUserInfo.username);
         expect(connection.request._body.password).toBe(testUserInfo.password);
@@ -225,7 +225,7 @@ describe('UserDataService', () => {
       };
 
       mockBackend.connections.subscribe((connection) => {
-        expect(connection.request.url).toContain('/register');
+        expect(connection.request.url).toContain('/auth/users/create/');
         expect(connection.request.method).toBe(RequestMethod.Post);
         expect(connection.request._body.username).toBe(testUserInfo.username);
         expect(connection.request._body.password).toBe(testUserInfo.password);
