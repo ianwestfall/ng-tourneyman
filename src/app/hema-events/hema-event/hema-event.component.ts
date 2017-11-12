@@ -1,18 +1,29 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { HemaEvent } from '../hema-event'
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
+import { HemaEvent } from '../hema-event';
+import { HemaEventDataService } from '../hema-event-data.service'
 
 @Component({
-  selector: 'hema-event',
+  selector: 'app-hema-event',
   templateUrl: './hema-event.component.html',
-  styleUrls: ['./hema-event.component.css']
+  styleUrls: ['./hema-event.component.css'],
+  providers: [HemaEventDataService]
 })
-export class HemaEventComponent implements OnInit {
+export class HemaEventComponent implements OnInit, OnDestroy {
+  private sub: Subscription;
+  private event: HemaEvent;
 
-  @Input()
-  private hemaEvent: HemaEvent;
-
-  constructor() { }
+  constructor(private route: ActivatedRoute, private dataService: HemaEventDataService) { }
 
   ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      this.dataService.getEvent(params['id']).subscribe(event => this.event = event);
+    });
+  }
+
+  ngOnDestroy(){
+    this.sub.unsubscribe();
   }
 }

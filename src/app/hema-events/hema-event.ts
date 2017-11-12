@@ -12,10 +12,17 @@ export class HemaEvent {
 
   constructor(values: Object = {}){
     Object.assign(this, values);
-    this.start_dt = this.start_dt?
-      new Date(this.start_dt): null;
-    this.end_dt =
-      this.end_dt? new Date(this.end_dt): null;
+    this.start_dt = this.fixDate(this.start_dt);
+    this.end_dt = this.fixDate(this.end_dt);
     this.create_dt = this.create_dt? new Date(this.create_dt): null;
+  }
+
+  fixDate(dateString: any): Date{
+    if(dateString){
+      let fixedDate = new Date(dateString);
+      fixedDate = new Date(fixedDate.getTime() + Math.abs(fixedDate.getTimezoneOffset()*60000));
+      return fixedDate;
+    }
+    return null;
   }
 }

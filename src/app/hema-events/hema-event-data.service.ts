@@ -49,6 +49,12 @@ export class HemaEventDataService {
     })
     .map(res => res.json())
     .catch(error => Observable.throw(error.json().error || 'Server error'));
+  }
 
+  getEvent(id: string){
+    let url = this.settings.apiUrl + this.urls['events'] + id;
+    return this.http.get(url)
+    .map(res => new HemaEvent(res.json()))
+    .catch(error => Observable.throw(error.json().error || 'Server error')); 
   }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HemaEventListComponent, HemaEventCreateComponent } from './hema-events';
+import { HemaEventListComponent, HemaEventCreateComponent, HemaEventComponent } from './hema-events';
 import { LoginComponent, LogoutComponent, RegisterComponent } from './user';
 import { AuthGuard } from './guards';
 import { HomeComponent } from './home/home/home.component';
@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'event-list', component: HemaEventListComponent,
     canActivate: [ AuthGuard ]},
   { path: 'create-event', component: HemaEventCreateComponent,
-  canActivate: [AuthGuard] },
+    canActivate: [AuthGuard] },
+  { path: 'event/:id', component: HemaEventComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

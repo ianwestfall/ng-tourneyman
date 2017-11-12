@@ -1,77 +1,41 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { EventDateRangePipe } from '../../pipes/event-date-range.pipe';
-import { EventCreatorPipe } from '../../pipes/event-creator.pipe';
-import { HemaEvent } from '../hema-event';
-import { Component } from '@angular/core';
-import { User } from '../../common-models/user';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Http, HttpModule, XHRBackend, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { HemaEventDataService } from '../hema-event-data.service'
+import { AuthHttp } from 'angular2-jwt';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { HemaEventComponent } from './hema-event.component';
 
 describe('HemaEventComponent', () => {
-  let testHostComponent: TestHostComponent;
-  let testHostFixture: ComponentFixture<TestHostComponent>;
+  let component: HemaEventComponent;
+  let fixture: ComponentFixture<HemaEventComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EventDateRangePipe,
-        EventCreatorPipe,
-        HemaEventComponent,
-        TestHostComponent,
-      ]
+      imports: [
+        HttpModule,
+        RouterTestingModule.withRoutes([]),
+      ],
+      declarations: [ HemaEventComponent ],
+      providers: [
+        HemaEventDataService,
+        {provide: 'SETTINGS', useValue: { apiUrl: 'http://www.example.com/'}},
+        {provide: XHRBackend, useClass: MockBackend},
+        {provide: AuthHttp, useExisting: Http},
+      ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    testHostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = testHostFixture.componentInstance;
-    let testHemaEvent = new HemaEvent({
-      id: 1,
-      name: 'Test Event',
-      description: 'Test Event Description',
-      event_start_dt: new Date() ,
-      event_end_dt: new Date(),
-      create_dt: new Date(),
-      status: 'Test Status',
-      created_by: new User({
-        first_name: 'Ian',
-        last_name: 'West',
-        email: 'ian.west@tourneyman.com',
-      }),
-    });
-    testHostComponent.setInput(testHemaEvent); 
-    testHostFixture.detectChanges();
+    fixture = TestBed.createComponent(HemaEventComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
-    let testHemaEvent = new HemaEvent({
-      id: 1,
-      name: 'Test Event',
-      description: 'Test Event Description',
-      event_start_dt: new Date() ,
-      event_end_dt: new Date(),
-      create_dt: new Date(),
-      status: 'Test Status',
-      created_by: new User({
-        first_name: 'Ian',
-        last_name: 'West',
-        email: 'ian.west@tourneyman.com',
-      }),
-    });
-    testHostComponent.setInput(testHemaEvent);
-    testHostFixture.detectChanges();
-    expect(true).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });
-
-@Component({
-  selector: 'host-component',
-  template: '<hema-event [hemaEvent]="hemaEvent"></hema-event>'
-})
-class TestHostComponent {
-  private hemaEvent: HemaEvent;
-  setInput(newInput: HemaEvent){
-    this.hemaEvent = newInput;
-  }
-}

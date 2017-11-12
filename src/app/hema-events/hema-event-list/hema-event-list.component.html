@@ -16,8 +16,7 @@
       <td>{{ hemaEvent.description }}</td>
       <td>{{ hemaEvent.create_dt | date }}</td>
       <td>
-        <a class="btn btn-success pull-right"><span class="glyphicon glyphicon-arrow-right"></span></a>
-        <a class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-primary pull-right" [routerLink]="['/event', hemaEvent.id]">View</a>
       </td>
     </tr>
   </tbody>
