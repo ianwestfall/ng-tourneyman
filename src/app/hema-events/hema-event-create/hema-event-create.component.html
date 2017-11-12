@@ -1,0 +1,50 @@
+<h2 class="text-center">Create an Event</h2>
+<form #createEventForm="ngForm" (ngSubmit)="onSubmit(createEventForm)" class="col-sm-8 col-sm-offset-2">
+  <div class="form-group">
+    <label for="name">Event Name</label>
+    <input [(ngModel)]="eventName"
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Event Name"
+      required>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea [(ngModel)]="eventDescription"
+      class="form-control"
+      id="description"
+      name="description"
+      rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input [(ngModel)]="eventStartDate"
+      type="date"
+      class="form-control"
+      id="startDate"
+      name="startDate"
+      required
+      dateRange="endDate"
+      reverse="true"
+      #startDateInput="ngModel">
+  </div>
+  <div class="form-group">
+    <label for="endDate">End Date</label>
+    <input [(ngModel)]="eventEndDate"
+    type="date"
+    class="form-control"
+    id="endDate"
+    name="endDate"
+    required
+    dateRange="startDate"
+    #endDateInput="ngModel">
+    <div *ngIf="endDateInput.invalid && (endDateInput.dirty || endDateInput.touched)"
+      class="alert alert-danger">End date must be later than start date</div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-default pull-right"
+    [disabled]="!createEventForm.form.valid">Submit</button>
+</form>

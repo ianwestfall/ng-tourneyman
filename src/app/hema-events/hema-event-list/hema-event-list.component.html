@@ -1,5 +1,27 @@
-<div class="hel-container">
-  <div *ngFor="let hemaEvent of hemaEvents">
-      <hema-event [hemaEvent]="hemaEvent"></hema-event>
-  </div>
+<h2>Your Events</h2>
+<table class="table table-hover" *ngIf="hemaEvents.length > 0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Created Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let hemaEvent of hemaEvents">
+      <td>{{ hemaEvent.name }}</td>
+      <td>{{ hemaEvent.start_dt | date }}<span *ngIf="hemaEvent.start_dt.getTime() != hemaEvent.end_dt.getTime()"> - {{ hemaEvent.end_dt | date }}</span></td>
+      <td>{{ hemaEvent.description }}</td>
+      <td>{{ hemaEvent.create_dt | date }}</td>
+      <td>
+        <a class="btn btn-success pull-right"><span class="glyphicon glyphicon-arrow-right"></span></a>
+        <a class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil"></span></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="row text-center" *ngIf="hemaEvents.length === 0">
+  You don't have any events. Create one <a routerLink="/create-event">here!</a>
 </div>

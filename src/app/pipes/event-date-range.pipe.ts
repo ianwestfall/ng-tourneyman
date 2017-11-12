@@ -8,9 +8,9 @@ export class EventDateRangePipe implements PipeTransform {
   }
 
   transform(hemaEvent: HemaEvent): string {
-    if(hemaEvent.event_start_dt.getTime() === hemaEvent.event_end_dt.getTime()){
-      return this.formatDate(hemaEvent.event_start_dt);
+    if(hemaEvent.start_dt === hemaEvent.end_dt){
+      return this.formatDate(hemaEvent.start_dt);
     }
-    else return `${this.formatDate(hemaEvent.event_start_dt)} - ${this.formatDate(hemaEvent.event_end_dt)}`;
+    else return `${this.formatDate(hemaEvent.start_dt)} - ${this.formatDate(hemaEvent.end_dt)}`;
   }
 }

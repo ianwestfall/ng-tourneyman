@@ -39,14 +39,7 @@ export class RegisterComponent implements OnInit {
     },
     err => {
       console.error(err);
+      throw err; 
     });
-
-      /*
-      let success = this.userDataService.register(
-        this.username, this.password1, this.email, this.firstName, this.lastName, this.association,
-      );
-      success.then(_ => {
-        this.router.navigateByUrl('/login');
-      })*/
   }
 }

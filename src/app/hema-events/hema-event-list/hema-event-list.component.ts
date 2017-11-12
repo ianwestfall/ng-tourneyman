@@ -10,7 +10,7 @@ import { HemaEventDataService } from '../hema-event-data.service'
 })
 export class HemaEventListComponent implements OnInit {
 
-  private hemaEvents : HemaEvent[];
+  private hemaEvents : HemaEvent[] = [];
   constructor(private hemaEventDataService: HemaEventDataService) { }
 
   ngOnInit(): void {
@@ -19,6 +19,8 @@ export class HemaEventListComponent implements OnInit {
 
   getHemaEvents(): void {
     this.hemaEventDataService.getAllHemaEvents()
-      .then(hemaEvents => this.hemaEvents = hemaEvents);
+      .then(hemaEvents => {
+        this.hemaEvents = hemaEvents;
+      });
   }
 }
