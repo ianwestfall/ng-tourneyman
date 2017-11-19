@@ -1,0 +1,16 @@
+.event-description {
+  min-height: 150px;
+}
+
+.event-date {
+  color: dimgray;
+  margin-top: 0px;
+}
+
+.edit-event-button {
+  margin-top: 20px;
+}
+
+button.add-new-tournament {
+  margin-left: 20px;
+}

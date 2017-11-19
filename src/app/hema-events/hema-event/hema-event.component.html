@@ -1,14 +1,42 @@
-<div *ngIf="event" class="row">
-  <div class="col-sm-8 col-sm-offset-2">
-    <h1 class="row">
-      <span class="col-sm-10">
-        {{ event.name }} <br />
-        <small>{{ event.start_dt | date }}<span *ngIf="event.start_dt.getTime() != event.end_dt.getTime()"> - {{ event.end_dt | date }}</span></small>
-      </span>
-      <span class="col-sm-2">
-        <button class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
-      </span>
-    </h1>
-    <div>{{ event.description }}</div>
+<div *ngIf="event">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="row">
+        <h1 class="col-sm-10">{{ event.name }}</h1>
+        <div class="col-sm-2 edit-event-button">
+          <button class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+        </div>
+      </div>
+      <div class="row">
+        <h3 class="col-sm-12 event-date">
+          {{ event.start_dt | date }}<span *ngIf="event.start_dt.getTime() != event.end_dt.getTime()"> - {{ event.end_dt | date }}</span>
+        </h3>
+      </div>
+      <div class="row event-description">
+        <p class="col-sm-12">{{ event.description }}</p>
+      </div>
+      <div class="row">
+        <h2 class="col-sm-12">Tournaments</h2>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Sport</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4" class="text-center">
+                Add a new tournament
+                <button class="btn btn-primary btn-xs add-new-tournament"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
