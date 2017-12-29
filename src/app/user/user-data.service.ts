@@ -8,6 +8,10 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/bindNodeCallback';
+import { Observer } from 'rxjs/Observer';
+
+import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 
 @Injectable()
 export class UserDataService {
@@ -32,11 +36,19 @@ export class UserDataService {
 
   public token: string;
 
+  private userPool;
+
   constructor(
     @Inject('SETTINGS') private settings: any,
     private http: Http
   ) {
     this.token = localStorage.getItem('token');
+    let poolData = {
+      UserPoolId: this.settings.userPoolId,
+      ClientId: this.settings.userPoolClientId,
+    };
+
+    this.userPool = new CognitoUserPool(poolData);
   }
 
   loggedIn(): boolean {
@@ -60,20 +72,37 @@ export class UserDataService {
   }
 
   login(username: string, password: string): Observable<any> {
-    let url = this.settings.apiUrl + this.urls.login;
-    return this.http.post(url, {"username": username, "password": password})
-      .map(response => {
-        let token = response.json() && response.json().token;
-        if (token) {
-          this.token = token;
-          this.storeLoggedInUser(username, token);
-          this.announceLogin(username);
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(error => Observable.throw(error.json().error || 'Server error'));
+    let authData = {
+      Username: username,
+      Password: password,
+    };
+
+    let authDetails = new AuthenticationDetails(authData);
+    let userData = {
+      Username: username,
+      Pool: this.userPool,
+    };
+
+    let cognitoUser = new CognitoUser(userData);
+
+    return Observable.create((observer: Observer<{ idToken: string }>) => {
+      cognitoUser.authenticateUser(authDetails, {
+        onSuccess: session => {
+          let token = session.getIdToken().getJwtToken();
+          if (token) {
+            this.token = token;
+            this.storeLoggedInUser(username, token);
+            this.announceLogin(username);
+          }
+          observer.next({ idToken: session.getIdToken().getJwtToken() });
+          observer.complete();
+        },
+        onFailure: error => observer.error(error),
+        newPasswordRequired: () => {},  // no-op
+        mfaRequired: () => {},  // no-op
+        customChallenge: () => {} // no-op
+      });
+    });
   }
 
   logout(): void {
@@ -84,17 +113,27 @@ export class UserDataService {
 
   register(username: string, password: string, email: string, firstName: string,
     lastName: string, association: string): Observable<any> {
-    let url = this.settings.apiUrl + this.urls.register;
-    return this.http.post(url, {
-      "username": username,
-      "password": password,
-      "email": email,
-      "first_name": firstName,
-      "last_name": lastName,
-      "association": association,
-    })
-    .map(res => res.json())
-    .catch(error => Observable.throw(error.json().error || 'Server error'));
+      var attributeList = [
+        new CognitoUserAttribute({
+          Name: 'email',
+          Value: email,
+        }),
+        new CognitoUserAttribute({
+          Name: 'given_name',
+          Value: firstName,
+        }),
+        new CognitoUserAttribute({
+          Name: 'family_name',
+          Value: lastName,
+        }),
+        new CognitoUserAttribute({
+          Name: 'custom:association',
+          Value: association,
+        }),
+      ];
+
+      let signUp = Observable.bindNodeCallback<string, string, any[], any[], any>(this.userPool.signUp.bind(this.userPool));
+      return signUp(username, password, attributeList, null);
   }
 
   isUsernameAvailable(username: string): Observable<any> {

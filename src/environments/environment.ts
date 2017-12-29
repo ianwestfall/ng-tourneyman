@@ -5,8 +5,10 @@
 
 export const environment = {
   production: false,
-  
+
   apiUrl: 'http://localhost:8000',
   apiUser: 'one',
   apiPassword: 'password123',
+  userPoolId: 'us-east-1_g3G3toClb',
+  userPoolClientId: '3gd8s897i5rj177eeir1o6j4pa',
 };
